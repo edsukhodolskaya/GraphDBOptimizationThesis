@@ -1,0 +1,29 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+
+{
+  ("Workitem" "ParentWorkitem") object:findProperty ?parentProperty.
+  
+  ("Workitem" "DesigningPhase" )object:findProperty ?designingPhaseProperty.
+  ("Workitem" "TestProductionPhase" )object:findProperty ?testProductionPhaseProperty.
+  ("Workitem" "RealizationPhase" )object:findProperty ?realizationPhaseProperty.
+
+  ("DesigningPhase" "Project" )object:findProperty ?projectPropertyInDesigning.
+  ("TestProductionPhase" "Project") object:findProperty ?projectPropertyInTestProduction.
+  ("RealizationPhase" "Project") object:findProperty ?projectPropertyInRealization.
+
+  (?item ?parentProperty) object:getRootByParentProperty ?rootTask.
+  or {
+    ?rootTask ?designingPhaseProperty ?phase.
+    ?phase ?projectPropertyInDesigning ?project.
+  }
+  or {
+    ?rootTask ?testProductionPhaseProperty ?phase.
+    ?phase ?projectPropertyInTestProduction ?project.
+  }
+  or {
+    ?rootTask ?realizationPhaseProperty ?phase.
+    ?phase ?projectPropertyInRealization ?project.
+  }.
+  ?project -> ?value.
+}

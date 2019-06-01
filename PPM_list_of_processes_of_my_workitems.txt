@@ -1,0 +1,44 @@
+﻿@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix cmw: <http://comindware.com/logics#>.
+@prefix axis: <http://comindware.com/logics/axis#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix user: <http://comindware.com/ontology/user#>.
+@prefix property: <http://comindware.com/ontology/user/op#>.
+@prefix session: <http://comindware.com/ontology/session#>.
+@prefix time: <http://comindware.com/logics/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix cmwtime: <http://comindware.com/logics/time#>.
+@prefix process: <http://comindware.com/ontology/process#>.
+
+{
+    ("Workitem" "parentProject") object:findProperty ?propPProject.
+    ("Project" "TeamProject") object:findProperty ?propPrTeam.
+    ("ProjectTeam" "Role") object:findProperty ?propRole.
+    ("ProjectTeam" "Performers") object:findProperty ?propPPerformers.
+    ("ProjectRole" "Name") object:findProperty ?propRoleName. 
+    ("Workitem" "WorkPlan") object:findProperty ?propWPlan.
+    ("WorkPlan" "WorkGroup") object:findProperty ?propWGroup.
+	("WorkPlan" "Curator") object:findProperty ?curator.
+
+    cmw:securityContext cmw:currentUser ?currentUser.
+    ?item process:businessObject ?workItem.
+    ?item process:status process:ActiveStatus.
+    ?managerRole ?propRoleName "Руководитель".
+    or {
+        ?workItem ?propPProject ?parentProject.
+        ?parentProject ?propPrTeam ?teamMember.
+        ?teamMember ?propPPerformers ?currentUser.
+        ?teamMember ?propRole ?managerRole.
+    }
+    or {
+        ?workItem ?propWPlan ?plan.
+        ?plan ?propWGroup ?teamMember.
+        ?teamMember ?propPPerformers ?currentUser.
+        ?teamMember ?propRole ?managerRole.
+    }
+    or {
+        ?workItem ?propWPlan ?plan.
+        ?plan ?curator ?currentUser.
+     }.
+}

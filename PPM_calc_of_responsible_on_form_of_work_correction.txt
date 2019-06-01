@@ -1,0 +1,43 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+
+{
+  ("workCorrectionRecord" "workItemLink") object:findProperty ?workItemLink.  
+  ("Workitem" "DesigningPhase" )object:findProperty ?designingPhaseProperty.
+  ("Workitem" "RealizationPhase" )object:findProperty ?realizationPhaseProperty.
+  ("Workitem" "TestProductionPhase" )object:findProperty ?testProductionPhaseProperty.
+    
+  ("DesigningPhase" "Project" )object:findProperty ?projectDProperty.
+  ("RealizationPhase" "Project" )object:findProperty ?projectRProperty.
+  ("TestProductionPhase" "Project" )object:findProperty ?projectPProperty.
+    
+  ("Project" "TeamProject" )object:findProperty ?teamProperty.
+  ("ProjectTeam" "Performers" )object:findProperty ?performersProperty.
+  ("Workitem" "ParentWorkitem") object:findProperty ?parentProperty.
+
+  ("Workitem" "WorkPlan") object:findProperty ?workPlanProperty.
+  ("WorkPlan" "WorkGroup") object:findProperty ?groupProperty.
+
+  ?item ?workItemLink ?object.  
+  (?object ?parentProperty) object:getRootByParentProperty ?rootTask.  
+  or {
+  ?rootTask ?designingPhaseProperty ?phase.
+  ?phase ?projectDProperty ?project.
+  ?project ?teamProperty ?team.    
+  }
+  or {  
+  ?rootTask ?realizationPhaseProperty ?phase.
+  ?phase ?projectRProperty ?project.
+  ?project ?teamProperty ?team.
+ }
+ or {
+  ?rootTask ?testProductionPhaseProperty ?phase.
+  ?phase ?projectPProperty ?project.
+  ?project ?teamProperty ?team.
+ } 
+ or {
+  ?rootTask ?workPlanProperty ?plan.
+  ?plan ?groupProperty ?team.
+ }.
+ ?team ?performersProperty ?value.
+}

@@ -1,0 +1,39 @@
+﻿@prefix xsd: <http://www.w3.org/2001/XMLSchema#>.
+@prefix cmw: <http://comindware.com/logics#>.
+@prefix axis: <http://comindware.com/logics/axis#>.
+@prefix log: <http://www.w3.org/2000/10/swap/log#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix user: <http://comindware.com/ontology/user#>.
+@prefix property: <http://comindware.com/ontology/user/op#>.
+@prefix session: <http://comindware.com/ontology/session#>.
+@prefix time: <http://comindware.com/logics/time#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix cmwtime: <http://comindware.com/logics/time#>.
+@prefix process: <http://comindware.com/ontology/process#>.
+@prefix nullable: <http://comindware.com/ontology/entity/nullable#>.
+
+{
+    ("WorkitemStatus" "Name") object:findProperty ?propStName.
+    ("Workitem" "Status") object:findProperty ?propStatus.
+    ("Workitem" "PlannedStartDate") object:findProperty ?propStDate.
+    ("Workitem" "_isDisabled") object:findProperty ?isDisabled.
+
+    session:context session:requestTime ?nowUTC.
+    "-201600"^^xsd:double time:toDuration ?startDayOffset.
+    "+104400"^^xsd:double time:toDuration ?endDayOffset.
+    ?nowUTC nullable:startOfDay ?startOfCurrentDayUTC.
+    (?startOfCurrentDayUTC ?startDayOffset) time:addDuration ?startTime.
+    (?startOfCurrentDayUTC ?endDayOffset) time:addDuration ?endTime.
+
+    ?statname ?propStName "Запланирована".
+    ?item ?propStatus ?statname.
+    ?item ?propStDate ?startDate.
+    ?startDate math:greaterThan ?startTime.
+    ?startDate math:lessThan ?endTime. 
+    not {
+        ?item ?isDisabled true.
+    }.
+    not {
+	? process:businessObject ?item.
+    }.
+}

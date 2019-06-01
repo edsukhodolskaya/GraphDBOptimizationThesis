@@ -1,0 +1,32 @@
+﻿@prefix object: <http://comindware.com/ontology/object#>.
+@prefix string: <http://comindware.com/logics/string#>.
+@prefix assert: <http://comindware.com/logics/assert#>.
+
+{
+  ("ProjectRole" "Name") object:findProperty ?rolename.
+  ("Project" "TeamProject") object:findProperty ?group.
+  ("ProjectTeam" "Role") object:findProperty ?roles.
+  ("ProjectTeam" "Performers") object:findProperty ?performers.
+  ("Project" "Director") object:findProperty ?director.
+  or {
+  ?item ?group ?team1. 
+  ?manager1 ?rolename "Руководитель".
+  ?team1 ?roles ?manager1.
+  ?team1 ?performers ?result1.  
+ 
+  ?item ?group ?team2. 
+  ?manager2 ?rolename "Зам. руководителя".
+  ?team2 ?roles ?manager2.
+  ?team2 ?performers ?result2.
+  (
+      {?team1 ?performers ?value.}
+      {?team2 ?performers ?value.}
+  ) assert:union true. 
+  } 
+  or {
+  ?item ?group ?team. 
+  ?manager ?rolename "Руководитель".
+  ?team ?roles ?manager.
+  ?team ?performers ?value. 
+  }.
+}

@@ -1,0 +1,18 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix account: <http://comindware.com/ontology/account#>.
+
+{
+  ("Project" "Name") object:findProperty ?name.
+  ("Project" "PrintComm") object:findProperty ?pComm.                      
+  ("Project" "DesigningPhase") object:findProperty ?dPhase.     
+  ("Project" "Status") object:findProperty ?status.   
+  ("Project" "TeamProject") object:findProperty ?teamPr.   
+  
+  ?item ?status ?stat.
+  ?item ?pComm false.
+  ?item ?teamPr ?team.
+  ?item ?name "Организация рабочего места МОЛ".
+  ?item ?dPhase ?dP.
+    
+}

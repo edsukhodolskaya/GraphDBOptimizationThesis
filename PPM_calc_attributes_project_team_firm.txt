@@ -1,0 +1,18 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix account: <http://comindware.com/ontology/account#>.
+
+{
+  ("ProjectTeam" "Performers") object:findProperty ?Perform.
+  ("CON_Consultants" "Firm") object:findProperty ?Firm.
+  ("CON_Consultants" "ADUser") object:findProperty ?ADUser.
+  ("CON_Firms" "name") object:findProperty ?Name.
+  
+  ?Template object:alias "CON_Consultants". 
+  ?users cmw:container ?Template. 
+
+  ?item ?Perform ?user.
+  ?users ?ADUser ?user.
+  ?users ?Firm ?userfirm.  
+  ?userfirm ?Name ?value. 
+  }

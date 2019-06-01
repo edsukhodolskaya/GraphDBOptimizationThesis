@@ -1,0 +1,15 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix account: <http://comindware.com/ontology/account#>.
+
+{
+  ("Workitem" "Workitems") object:findProperty ?works.
+  ("Workitem" "Status") object:findProperty ?status.                      
+  ("Workitem" "RealizationPhase") object:findProperty ?rPhase.     
+  ("Workitem" "Type") object:findProperty ?type.      
+  
+  ?item ?type ?itemType.
+  ?item ?status ?wStatus.
+  ?item ?works ?worksVal.
+  ?item ?rPhase ?phase.
+}

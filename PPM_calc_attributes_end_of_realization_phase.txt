@@ -1,0 +1,23 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix math: <http://www.w3.org/2000/10/swap/math#>.
+@prefix assert: <http://comindware.com/logics/assert#>.
+{
+    ("Project" "RealizationPhase") object:findProperty ?rphase.
+    ("RealizationPhase" "Workitems") object:findProperty ?coll.
+    ("Workitem" "Status") object:findProperty ?stat.
+    ("WorkitemStatus" "Name") object:findProperty ?name.
+    ?item ?rphase ?phase.
+    { 
+        ?phase ?coll ?workitems1.              
+    } assert:count ?totalKol.
+    {
+        ?phase ?coll ?workitems2.
+        ?workitems2 ?stat ?status.
+        ?status ?name ?statName.
+        ?statName == "Завершена".
+    } assert:count ?Count.
+    ?totalKol math:greaterThan 0.
+    ?totalKol == ?Count.
+    true == ?value.
+}

@@ -1,0 +1,14 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+@prefix account: <http://comindware.com/ontology/account#>.
+
+{
+  ("Project" "ProjectRequest") object:findProperty ?request.
+  ("ProjectRequest" "Representative") object:findProperty ?representative.                      
+  ("Users" "SNG_LOGIN") object:findProperty ?user_login.
+
+  ?item ?request ?requestValue.
+  ?requestValue ?representative ?representativeValue.
+  ?representativeValue account:username ?login.
+  ?value ?user_login ?login.
+}

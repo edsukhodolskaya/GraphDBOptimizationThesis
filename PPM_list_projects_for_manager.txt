@@ -1,0 +1,14 @@
+﻿@prefix cmw: <http://comindware.com/logics#>.
+@prefix object: <http://comindware.com/ontology/object#>.
+{
+  ("ProjectRole" "Name") object:findProperty ?rolename.
+  ("Project" "TeamProject") object:findProperty ?prteams.
+  ("ProjectTeam" "Role") object:findProperty ?roles.
+  ("ProjectTeam" "Performers") object:findProperty ?performers.
+  
+  ?manager ?rolename "Руководитель".
+  cmw:securityContext cmw:currentUser ?user.
+  ?result ?performers ?user.
+  ?result ?roles ?manager.
+  ?item ?prteams ?result.
+}
